@@ -39,7 +39,7 @@ int main() {
     printf("Enter the array elements\n");
     readArray(arr,n);
     
-    printf("Original array: ");
+    printf("Original array : ");
     printArray(arr, n);
 
     selectionSort(arr, n);
