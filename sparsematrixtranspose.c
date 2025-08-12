@@ -1,66 +1,49 @@
 #include <stdio.h>
-
-struct Term {
+struct term{
     int row;
     int col;
-    int value;
+    int nze;
 };
-
-void transpose(struct Term sparse[], struct Term transpose[]) {
-    int i, j, n;
-    n = sparse[0].value; // number of non-zero elements
-
-    // Step 1: Metadata for transpose
-    transpose[0].row = sparse[0].col;
-    transpose[0].col = sparse[0].row;
-    transpose[0].value = sparse[0].value;
-
-    // Step 2: Swap row and col for each non-zero element
-    int k = 1; // index for transpose array
-    for (i = 0; i < sparse[0].col; i++) { // for each column of original
-        for (j = 1; j <= n; j++) {         // check all elements
-            if (sparse[j].col == i) {
-                transpose[k].row = sparse[j].col;
-                transpose[k].col = sparse[j].row;
-                transpose[k].value = sparse[j].value;
+void structdisplay(struct term s[],int n)
+{   
+        int i;
+        for(i=0;i<=n;i++)
+            printf("%d %d %d\n",s[i].row,s[i].col,s[i].nze);
+}
+int main()
+{
+    struct term s[100],t[100];
+    int r,c,n,i,j;
+    printf("Enter number of rows,columns and nonzero elements of sparse matrix:\n");
+    scanf("%d%d%d",&r,&c,&n);
+    s[0].row=r;
+    s[0].col=c;
+    s[0].nze=n;
+    t[0].col=r;
+    t[0].row=c;
+    t[0].nze=n;
+    printf("Enter %d nonzero elements in format(row,column,element):\n",n);
+    for(i=1;i<=n;i++)
+    {
+        scanf("%d%d%d",&s[i].row,&s[i].col,&s[i].nze);
+    }
+    
+    printf("Original sparse matrix is:\n");
+    structdisplay(s,n);
+    int k=1;
+    for(i=0;i<c;i++)
+    {
+        for(j=1;j<=n;j++)
+        {
+            if(s[j].col==i)
+            {
+                t[k].row=s[j].col;
+                t[k].col=s[j].row;
+                t[k].nze=s[j].nze;
                 k++;
             }
         }
     }
-}
-
-void display(struct Term sparse[]) {
-    int n = sparse[0].value; // number of non-zero elements
-    printf("Row  Col  Value\n");
-    for (int i = 0; i <= n; i++) {
-        printf("%3d %4d %5d\n", sparse[i].row, sparse[i].col, sparse[i].value);
-    }
-}
-
-int main() {
-    int rows, cols, n;
-
-    printf("Enter number of rows, columns, and non-zero elements: ");
-    scanf("%d %d %d", &rows, &cols, &n);
-
-    struct Term sparse[50], transposed[50];
-
-    sparse[0].row = rows;
-    sparse[0].col = cols;
-    sparse[0].value = n;
-
-    printf("Enter the non-zero elements (row column value):\n");
-    for (int i = 1; i <= n; i++) {
-        scanf("%d %d %d", &sparse[i].row, &sparse[i].col, &sparse[i].value);
-    }
-
-    printf("\nOriginal Sparse Matrix Representation:\n");
-    display(sparse);
-
-    transpose(sparse, transposed);
-
-    printf("\nTransposed Sparse Matrix Representation:\n");
-    display(transposed);
-
-    return 0;
+    printf("transpose is:\n");
+    structdisplay(t,n);
 }
