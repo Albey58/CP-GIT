@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define MAX 10
+#define MAX 100
 int queue[MAX];
 int rear=0;
 int front=0;
-bool isempty(){
-	rear=front;
+bool isempty() {
+    return (rear == front);
 }
-bool isfull(){
-	rear=MAX-1;
+
+bool isfull() {
+    return (rear == MAX);
 }
 void enqueue()
 {
@@ -43,8 +44,8 @@ void peek()
 void display(){
 	if(isempty())
 		printf("Empty queue");
-	else{
-		for(int i=front;i<=rear;i++)
+	else{	
+		for(int i=front;i<rear;i++)
 		{
 			printf("%d\t",queue[i]);
 		}
@@ -54,7 +55,7 @@ int main()
 {
 	int choice;
 	while(1){
-	printf("Enter choice:\n1.enqueu\n2.deqeue\n3.peek\n4.display\n5.exit");
+	printf("Enter choice:\n1.enqueue\n2.deqeue\n3.peek\n4.display\n5.exit");
 	scanf("%d",&choice);
 		switch(choice){
 			case 1:
